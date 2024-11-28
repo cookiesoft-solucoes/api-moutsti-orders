@@ -1,0 +1,35 @@
+services:
+  postgres:
+    image: postgres:15
+    container_name: moutsti_database
+    restart: always
+    environment:
+      POSTGRES_USER: moutsti
+      POSTGRES_PASSWORD: moutsti
+      POSTGRES_DB: db_moutsti_order
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_moutsti_data:/var/lib/postgresql/data
+    networks:
+      - moutsti-network
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: moutsti_rabbitmq
+    restart: always
+    ports:
+      - "5672:5672" # Porta para comunicação AMQP
+      - "15672:15672" # Porta para o painel de gerenciamento
+    environment:
+      RABBITMQ_DEFAULT_USER: moutsti
+      RABBITMQ_DEFAULT_PASS: moutsti2024
+    networks:
+      - moutsti-network
+
+volumes:
+  postgres_moutsti_data:
+
+networks:
+  moutsti-network:
+    driver: bridge
