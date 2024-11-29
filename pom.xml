@@ -127,7 +127,6 @@
                 <configuration>
                     <url>jdbc:postgresql://192.168.18.122/db_api_moutsti_orders</url>
                     <user>user_moutsti</user>
-                    <password>moutsti2024</password>
                 </configuration>
             </plugin>
         </plugins>
