@@ -1,0 +1,50 @@
+name: Deploy to Kubernetes API Moutsti Orders
+
+on:
+  workflow_dispatch:  # Permite disparar o workflow manualmente
+    inputs:
+      environment:
+        description: "Environment to deploy (develop or production)"
+        required: true
+        default: "develop"
+      image:
+        description: "Docker image to deploy"
+        required: true
+        default: "registry.digitalocean.com/repository/api-orders:latest"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout do código (opcional, se necessário para acessar arquivos de configuração)
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Login no registro de contêiner
+      - name: Log in to Docker Registry
+        run: |
+          echo ${{ secrets.DOCKER_TOKEN }} | docker login registry.digitalocean.com -u DOCR --password-stdin
+
+      # Configurar o kubectl
+      - name: Set up kubectl
+        uses: azure/setup-kubectl@v3
+        with:
+          version: 'latest'
+
+      # Configurar o contexto do Kubernetes para o namespace correto
+      - name: Configure kubeconfig
+        run: |
+          echo "${{ secrets.KUBECONFIG }}" > kubeconfig.yaml
+          export KUBECONFIG=kubeconfig.yaml
+          echo "Using KUBECONFIG for namespace: ${{ github.event.inputs.environment }}"
+
+      # Atualizar o Deployment no namespace correto
+      - name: Deploy to Kubernetes
+        env:
+          IMAGE: ${{ github.event.inputs.image }}
+          NAMESPACE: ${{ github.event.inputs.environment }}
+        run: |
+          echo "Deploying to namespace: $NAMESPACE with image: $IMAGE"
+          kubectl -n $NAMESPACE set image deployment/api-orders-deployment api-orders-container=$IMAGE
+          kubectl -n $NAMESPACE rollout status deployment/api-orders-deployment
