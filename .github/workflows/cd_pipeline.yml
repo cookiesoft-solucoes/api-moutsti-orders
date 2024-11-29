@@ -15,7 +15,7 @@ jobs:
       # Step para gerar o TIMESTAMP dinamicamente
       - name: Generate TIMESTAMP
         id: generate-timestamp
-        run: echo "timestamp=$(date +%Y%m%d%H%M%S)" >> $TIMESTAMP
+        run: echo "timestamp=$(date +%Y%m%d%H%M%S)" >> $GITHUB_OUTPUT
 
       # Checkout do código
       - name: Checkout code
@@ -34,6 +34,7 @@ jobs:
       # Build Docker image
       - name: Build the Docker image
         env: # Declaração global de variáveis
+          TIMESTAMP: ${{ steps.generate-timestamp.outputs.timestamp }}
           BRANCH_NAME: ${{ github.ref_name }}
         run: docker build . --tag api-orders:${BRANCH_NAME}-$TIMESTAMP
 
@@ -44,11 +45,13 @@ jobs:
       # Tag the Docker image
       - name: Tag Docker image
         env: # Declaração global de variáveis
+          TIMESTAMP: ${{ steps.generate-timestamp.outputs.timestamp }}
           BRANCH_NAME: ${{ github.ref_name }}
         run: docker tag api-orders:${BRANCH_NAME}-$TIMESTAMP registry.digitalocean.com/repository-api-moutsti-orders/api-orders:${BRANCH_NAME}-$TIMESTAMP
 
       # Push Docker image to DOCR
       - name: Push Docker image to Digital Ocean
         env: # Declaração global de variáveis
+          TIMESTAMP: ${{ steps.generate-timestamp.outputs.timestamp }}
           BRANCH_NAME: ${{ github.ref_name }}
         run: docker push registry.digitalocean.com/repository-api-moutsti-orders/api-orders:${BRANCH_NAME}-$TIMESTAMP
