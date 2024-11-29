@@ -30,12 +30,9 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
-      # Logar no Docker Hub
-      - name: Log in to Docker Hub
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}  # Configurar em Secrets
-          password: ${{ secrets.DOCKER_TOKEN }}  # Configurar em Secrets
+      # Log in to DigitalOcean Container Registry (DOCR)
+      - name: Log in to Digital Ocean Container Registry
+        run: echo ${{ secrets.DOCKER_TOKEN }} | docker login registry.digitalocean.com -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
 
       # Build e Push da Imagem para o Microservice Register
       - name: Build and push Register Service
