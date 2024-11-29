@@ -11,6 +11,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    env: # Declaração global de variáveis
+      TIMESTAMP: ${{ steps.timestamp.outputs.timestamp }}
+      BRANCH_NAME: ${{ github.ref_name }}
+
     steps:
       # Checkout do código
       - name: Checkout code
@@ -26,19 +30,18 @@ jobs:
       - name: Build with Maven
         run: mvn clean package -DskipTests
 
-      # Set up Docker Buildx (necessário para multi-plataforma)
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
+      # Build Docker image
+      - name: Build the Docker image
+        run: docker build . --tag api-orders:${BRANCH_NAME}-$TIMESTAMP
 
       # Log in to DigitalOcean Container Registry (DOCR)
       - name: Log in to Digital Ocean Container Registry
         run: echo ${{ secrets.DOCKER_TOKEN }} | docker login registry.digitalocean.com -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
 
-      # Build e Push da Imagem para o Microservice Register
-      - name: Build and push Register Service
-        run: |
-          TIMESTAMP=$(date +%Y%m%d%H%M%S)
-          BRANCH_NAME=${{ github.ref_name }}
-          IMAGE_TAG=registry.digitalocean.com/repository-api-moutsti-orders:${BRANCH_NAME}-$TIMESTAMP
-          docker build -t $IMAGE_TAG .
-          docker push $IMAGE_TAG
+      # Tag the Docker image
+      - name: Tag Docker image
+        run: docker tag api-orders:${BRANCH_NAME}-$TIMESTAMP registry.digitalocean.com/repository-api-moutsti-orders/api-orders:${BRANCH_NAME}-$TIMESTAMP
+
+      # Push Docker image to DOCR
+      - name: Push Docker image to Digital Ocean
+        run: docker push registry.digitalocean.com/repository-api-moutsti-orders/api-orders:${BRANCH_NAME}-$TIMESTAMP
