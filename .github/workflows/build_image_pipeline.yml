@@ -1,4 +1,4 @@
-name: Build and Deploy API Moutsti Orders
+name: Run Test and Build Image API Moutsti Orders
 
 on:
   push:
