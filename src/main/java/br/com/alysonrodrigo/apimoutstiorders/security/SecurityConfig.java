@@ -33,6 +33,7 @@ public class SecurityConfig {
     /**
      * Configura o filtro de segurança e habilita HTTP Basic.
      */
+    @SuppressWarnings("squid:S4502") // Ignora o alerta de desabilitar CSRF
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable) // Desabilita CSRF para simplificação em testes
