@@ -1,16 +1,16 @@
 services:
   postgres:
-    image: postgres:15
+    image: postgres:9.6
     container_name: moutsti_database
     restart: always
     environment:
-      POSTGRES_USER: moutsti
-      POSTGRES_PASSWORD: moutsti
-      POSTGRES_DB: db_moutsti_order
+      POSTGRES_USER: user_moutsti
+      POSTGRES_PASSWORD: moutsti2024
+      POSTGRES_DB: db_api_moutsti_orders
     ports:
       - "5432:5432"
     volumes:
-      - postgres_moutsti_data:/var/lib/postgresql/data
+      - database_moutsti_data:/var/lib/postgresql/data
     networks:
       - moutsti-network
 
@@ -28,7 +28,7 @@ services:
       - moutsti-network
 
 volumes:
-  postgres_moutsti_data:
+  database_moutsti_data:
 
 networks:
   moutsti-network:
