@@ -1,6 +1,6 @@
 package br.com.alysonrodrigo.apimoutstiorders.mapper;
 
-import br.com.alysonrodrigo.apimoutstiorders.domain.model.Category;
+import br.com.alysonrodrigo.apimoutstiorders.domain.model.RepCategory;
 import br.com.alysonrodrigo.apimoutstiorders.domain.model.Tax;
 import br.com.alysonrodrigo.apimoutstiorders.dto.TaxDTO;
 import org.springframework.stereotype.Component;
@@ -30,7 +30,7 @@ public class TaxMapper {
      * @param category Categoria associada ao imposto.
      * @return Objeto Tax correspondente.
      */
-    public Tax toEntity(TaxDTO taxDTO, Category category) {
+    public Tax toEntity(TaxDTO taxDTO, RepCategory category) {
         Tax tax = new Tax();
         tax.setTaxType(taxDTO.getTaxType());
         tax.setRate(taxDTO.getRate());

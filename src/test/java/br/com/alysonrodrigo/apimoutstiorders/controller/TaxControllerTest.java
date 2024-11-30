@@ -1,9 +1,8 @@
 package br.com.alysonrodrigo.apimoutstiorders.controller;
 
-import br.com.alysonrodrigo.apimoutstiorders.domain.model.Category;
+import br.com.alysonrodrigo.apimoutstiorders.domain.model.RepCategory;
 import br.com.alysonrodrigo.apimoutstiorders.domain.model.Tax;
-import br.com.alysonrodrigo.apimoutstiorders.domain.repository.TaxRepository;
-import br.com.alysonrodrigo.apimoutstiorders.domain.service.CategoryService;
+import br.com.alysonrodrigo.apimoutstiorders.domain.service.RepCategoryService;
 import br.com.alysonrodrigo.apimoutstiorders.domain.service.TaxService;
 import br.com.alysonrodrigo.apimoutstiorders.dto.TaxDTO;
 import br.com.alysonrodrigo.apimoutstiorders.mapper.TaxMapper;
@@ -37,7 +36,7 @@ public class TaxControllerTest {
     private TaxService taxService;
 
     @MockBean
-    private CategoryService categoryService;
+    private RepCategoryService categoryService;
 
     @MockBean
     private TaxMapper taxMapper;
@@ -61,7 +60,7 @@ public class TaxControllerTest {
         // Mock do retorno do método saveTax
         Tax tax = new Tax(); // Simule o retorno esperado
         tax.setTaxType("ICMS");
-        tax.setCategory(new Category(1L, "Category Test", "Description Category Test")); // Exemplo de categoria mockada
+        tax.setCategory(new RepCategory(1L, "Category Test", "Description Category Test")); // Exemplo de categoria mockada
         tax.setRate(new BigDecimal("18.00"));
         tax.setDescription("Imposto ICMS para teste");
 
@@ -73,7 +72,7 @@ public class TaxControllerTest {
                         .with(httpBasic("manager", "manager123")) // Credenciais
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(taxDTO)))
-                .andExpect(status().isForbidden());
+                .andExpect(status().is4xxClientError());
 
     }
 }

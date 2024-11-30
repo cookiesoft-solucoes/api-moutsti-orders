@@ -1,10 +1,9 @@
 package br.com.alysonrodrigo.apimoutstiorders.domain.repository;
 
-import br.com.alysonrodrigo.apimoutstiorders.domain.model.Category;
+import br.com.alysonrodrigo.apimoutstiorders.domain.model.RepCategory;
 import br.com.alysonrodrigo.apimoutstiorders.domain.model.Tax;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
@@ -29,7 +28,7 @@ public class TaxRepositoryTest {
         tax.setTaxType("ICMS");
         tax.setRate(new BigDecimal("18.00"));
         tax.setDescription("Imposto ICMS para teste");
-        tax.setCategory(new Category(1L, "Eletrônicos", "Descrição de Eletrônicos")); // Categoria existente
+        tax.setCategory(new RepCategory(1L, "Eletrônicos", "Descrição de Eletrônicos")); // Categoria existente
 
         // Salvando imposto
         tax = taxRepository.save(tax);

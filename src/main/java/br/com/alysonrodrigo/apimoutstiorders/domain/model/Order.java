@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
-@Table(name = "order")
+@Table(name = "orders")
 @Where(clause = "deleted = false")
 public class Order extends BaseEntity{
 
@@ -35,10 +35,10 @@ public class Order extends BaseEntity{
     @Column(name = "total_tax", nullable = false, precision = 10, scale = 2, columnDefinition = "NUMERIC(10, 2) DEFAULT 0")
     private BigDecimal totalTax = BigDecimal.ZERO;
 
-    @Column(nullable = false, length = 50, columnDefinition = "VARCHAR(50) DEFAULT 'CREATED'")
-    private String status = "CREATED";
-
     @ManyToOne(optional = false)
     @JoinColumn(name = "client_id", nullable = false)
-    private User client;
+    private RepUser client;
+
+    @Column(nullable = false, length = 50, columnDefinition = "VARCHAR(50) DEFAULT 'CREATED'")
+    private String status = "CREATED";
 }

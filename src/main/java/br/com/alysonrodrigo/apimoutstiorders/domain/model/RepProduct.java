@@ -10,13 +10,12 @@ import java.math.BigDecimal;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
-@Table(name = "product")
+@Table(name = "rep_product")
 @Where(clause = "deleted = false")
-public class Product extends BaseEntity {
+public class RepProduct extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_product_id")
-    @SequenceGenerator(name = "seq_product_id", sequenceName = "seq_product_id", allocationSize = 1)
+    @Column(nullable = false)
     private Long id;
 
     @Column(nullable = false)
@@ -30,6 +29,6 @@ public class Product extends BaseEntity {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "category_id", nullable = false)
-    private Category category;
+    private RepCategory category;
 
 }

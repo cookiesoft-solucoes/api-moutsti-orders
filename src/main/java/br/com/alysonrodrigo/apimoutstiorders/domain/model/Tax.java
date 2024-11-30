@@ -21,7 +21,7 @@ public class Tax extends BaseEntity {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "category_id", nullable = false)
-    private Category category;
+    private RepCategory category;
 
     @Column(nullable = false, precision = 5, scale = 2)
     private BigDecimal rate;

@@ -1,7 +1,7 @@
 package br.com.alysonrodrigo.apimoutstiorders.domain.service;
 
-import br.com.alysonrodrigo.apimoutstiorders.domain.model.Product;
-import br.com.alysonrodrigo.apimoutstiorders.domain.repository.ProductRepository;
+import br.com.alysonrodrigo.apimoutstiorders.domain.model.RepProduct;
+import br.com.alysonrodrigo.apimoutstiorders.domain.repository.RepProductRepository;
 import br.com.alysonrodrigo.apimoutstiorders.exception.ResourceNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -17,10 +17,10 @@ import static org.mockito.Mockito.*;
 public class ProductServiceTest {
 
     @InjectMocks
-    private ProductService productService;
+    private RepProductService productService;
 
     @Mock
-    private ProductRepository productRepository;
+    private RepProductRepository productRepository;
 
     public ProductServiceTest() {
         MockitoAnnotations.openMocks(this);
@@ -28,14 +28,14 @@ public class ProductServiceTest {
 
     @Test
     public void testCreateProduct() {
-        Product product = new Product();
+        RepProduct product = new RepProduct();
         product.setName("Test Product");
         product.setPrice(BigDecimal.valueOf(100));
         product.setQuantity(10);
 
-        when(productRepository.save(any(Product.class))).thenReturn(product);
+        when(productRepository.save(any(RepProduct.class))).thenReturn(product);
 
-        Product result = productService.createProduct(product);
+        RepProduct result = productService.save(product);
 
         assertNotNull(result);
         assertEquals("Test Product", result.getName());
@@ -44,13 +44,13 @@ public class ProductServiceTest {
 
     @Test
     public void testGetProductById() {
-        Product product = new Product();
+        RepProduct product = new RepProduct();
         product.setId(1L);
         product.setName("Test Product");
 
         when(productRepository.findById(1L)).thenReturn(Optional.of(product));
 
-        Product result = productService.getProductById(1L);
+        RepProduct result = productService.getProductById(1L);
 
         assertNotNull(result);
         assertEquals(1L, result.getId());

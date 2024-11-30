@@ -1,8 +1,7 @@
 package br.com.alysonrodrigo.apimoutstiorders.domain.service;
 
-import br.com.alysonrodrigo.apimoutstiorders.domain.model.Category;
-import br.com.alysonrodrigo.apimoutstiorders.domain.model.Tax;
-import br.com.alysonrodrigo.apimoutstiorders.domain.repository.CategoryRepository;
+import br.com.alysonrodrigo.apimoutstiorders.domain.model.RepCategory;
+import br.com.alysonrodrigo.apimoutstiorders.domain.repository.RepCategoryRepository;
 import br.com.alysonrodrigo.apimoutstiorders.domain.repository.TaxRepository;
 import br.com.alysonrodrigo.apimoutstiorders.dto.TaxDTO;
 import br.com.alysonrodrigo.apimoutstiorders.mapper.TaxMapper;
@@ -27,7 +26,7 @@ public class TaxServiceTest {
     private TaxRepository taxRepository;
 
     @Mock
-    private CategoryRepository categoryRepository;
+    private RepCategoryRepository categoryRepository;
 
     @Mock
     private TaxMapper taxMapper;
@@ -57,7 +56,7 @@ public class TaxServiceTest {
 
         // Verificar se lança IllegalArgumentException
         assertThrows(IllegalArgumentException.class, () -> {
-            Category category = categoryRepository.findById(invalidCategoryId)
+            RepCategory category = categoryRepository.findById(invalidCategoryId)
                     .orElseThrow(() -> new IllegalArgumentException("Categoria não encontrada"));
             taxMapper.toEntity(taxDTO, category);
         });
