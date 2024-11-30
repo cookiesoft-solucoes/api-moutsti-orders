@@ -12,14 +12,14 @@ import java.math.BigDecimal;
 @Entity
 @Table(name = "product")
 @Where(clause = "deleted = false")
-public class Product extends BaseEntity{
+public class Product extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_product_id")
     @SequenceGenerator(name = "seq_product_id", sequenceName = "seq_product_id", allocationSize = 1)
     private Long id;
 
-    @Column(nullable = false, length = 255)
+    @Column(nullable = false)
     private String name;
 
     @Column(nullable = false, precision = 10, scale = 2)
