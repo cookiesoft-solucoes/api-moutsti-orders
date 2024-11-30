@@ -1,5 +1,6 @@
 package br.com.alysonrodrigo.apimoutstiorders.security;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -16,6 +17,18 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableMethodSecurity
 public class SecurityConfig {
+
+    @Value("${user.client.username:client}")
+    private String clientUsername;
+
+    @Value("${user.client.password:client123}")
+    private String clientPassword;
+
+    @Value("${user.manager.username:manager}")
+    private String managerUsername;
+
+    @Value("${user.manager.password:manager123}")
+    private String managerPassword;
 
     /**
      * Configura o filtro de segurança e habilita HTTP Basic.
@@ -38,14 +51,14 @@ public class SecurityConfig {
     @Bean
     public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
         UserDetails clientUser = User.builder()
-                .username("client") // Nome de usuário do CLIENT
-                .password(passwordEncoder.encode("client123")) // Senha do CLIENT
+                .username(clientUsername) // Nome de usuário do CLIENT
+                .password(passwordEncoder.encode(clientPassword)) // Senha do CLIENT
                 .roles("CLIENT") // Papel/role CLIENT
                 .build();
 
         UserDetails managerUser = User.builder()
-                .username("manager") // Nome de usuário do MANAGER
-                .password(passwordEncoder.encode("manager123")) // Senha do MANAGER
+                .username(managerUsername) // Nome de usuário do MANAGER
+                .password(passwordEncoder.encode(managerPassword)) // Senha do MANAGER
                 .roles("MANAGER") // Papel/role MANAGER
                 .build();
 
