@@ -8,12 +8,11 @@ import java.math.BigDecimal;
 @Data
 public class TaxDTO {
 
+    private Long id;
+
     @NotBlank(message = "O tipo do imposto é obrigatório.")
     @Size(max = 100, message = "O tipo do imposto não pode exceder 100 caracteres.")
     private String taxType;
-
-    @NotNull(message = "O ID da categoria é obrigatório.")
-    private Long categoryId;
 
     @NotNull(message = "A alíquota do imposto é obrigatória.")
     @DecimalMin(value = "0.0", inclusive = true, message = "A alíquota não pode ser negativa.")
@@ -22,4 +21,7 @@ public class TaxDTO {
 
     @Size(max = 255, message = "A descrição não pode exceder 255 caracteres.")
     private String description;
+
+    @NotNull(message = "O ID da categoria é obrigatório.")
+    private Long categoryId;
 }

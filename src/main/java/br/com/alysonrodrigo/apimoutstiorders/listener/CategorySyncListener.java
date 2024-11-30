@@ -23,7 +23,7 @@ public class CategorySyncListener {
     }
 
     @RabbitListener(queues = ConstantsUtil.CATEGORY_SYNC_QUEUE)
-    public void handleUserSync(RepCategoryDTO repCategoryDTO) {
+    public void handleCategorySync(RepCategoryDTO repCategoryDTO) {
         Optional<RepCategory> existingCategory = categoryService.findByIdOutException(repCategoryDTO.getId());
 
         if (existingCategory.isPresent()) {

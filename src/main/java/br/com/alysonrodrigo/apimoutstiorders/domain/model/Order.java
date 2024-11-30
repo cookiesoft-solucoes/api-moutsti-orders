@@ -7,6 +7,7 @@ import org.hibernate.annotations.Where;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -41,4 +42,7 @@ public class Order extends BaseEntity{
 
     @Column(nullable = false, length = 50, columnDefinition = "VARCHAR(50) DEFAULT 'CREATED'")
     private String status = "CREATED";
+
+    @OneToMany(mappedBy = "order")
+    private List<ItemOrder> items;
 }

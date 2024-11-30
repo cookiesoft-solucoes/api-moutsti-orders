@@ -2,6 +2,7 @@ package br.com.alysonrodrigo.apimoutstiorders.domain.service;
 
 import br.com.alysonrodrigo.apimoutstiorders.domain.model.Tax;
 import br.com.alysonrodrigo.apimoutstiorders.domain.repository.TaxRepository;
+import br.com.alysonrodrigo.apimoutstiorders.exception.TaxNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -53,6 +54,14 @@ public class TaxService {
     }
 
     public List<Tax> getTaxesByCategory(Long categoryId) {
-        return taxRepository.findByCategoryId(categoryId);
+        return taxCacheService.getTaxesByCategory(categoryId);
+    }
+
+    public Tax getFirstTaxByCategory(Long categoryId) {
+        List<Tax> taxes = getTaxesByCategory(categoryId);
+        if (taxes.isEmpty()) {
+            throw new TaxNotFoundException("Nenhuma taxa encontrada para a categoria com ID: " + categoryId);
+        }
+        return taxes.get(0);
     }
 }
