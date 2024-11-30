@@ -9,6 +9,7 @@ import br.com.alysonrodrigo.apimoutstiorders.dto.TaxDTO;
 import br.com.alysonrodrigo.apimoutstiorders.mapper.TaxMapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -44,9 +45,9 @@ public class TaxControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-
-
-
+    public TaxControllerTest() {
+        MockitoAnnotations.openMocks(this);
+    }
 
     @Test
     public void testCreateTax() throws Exception {
