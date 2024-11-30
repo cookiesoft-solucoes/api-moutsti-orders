@@ -1,10 +1,8 @@
 package br.com.alysonrodrigo.apimoutstiorders.mapper;
 
-import br.com.alysonrodrigo.apimoutstiorders.domain.model.Category;
-import br.com.alysonrodrigo.apimoutstiorders.domain.model.Product;
-import br.com.alysonrodrigo.apimoutstiorders.domain.model.Tax;
-import br.com.alysonrodrigo.apimoutstiorders.dto.ProductDTO;
-import br.com.alysonrodrigo.apimoutstiorders.dto.TaxDTO;
+import br.com.alysonrodrigo.apimoutstiorders.domain.model.RepCategory;
+import br.com.alysonrodrigo.apimoutstiorders.domain.model.RepProduct;
+import br.com.alysonrodrigo.apimoutstiorders.dto.RepProductDTO;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -13,11 +11,12 @@ public class ProductMapper {
     /**
      * Converte um objeto Tax para TaxDTO.
      *
-     * @param tax Objeto Tax a ser convertido.
+     * @param product Objeto RepProduct a ser convertido.
      * @return Objeto TaxDTO correspondente.
      */
-    public ProductDTO toDTO(Product product) {
-        ProductDTO productDTO = new ProductDTO();
+    public RepProductDTO toDTO(RepProduct product) {
+        RepProductDTO productDTO = new RepProductDTO();
+        productDTO.setId(product.getId());
         productDTO.setCategoryId(product.getCategory().getId());
         productDTO.setName(product.getName());
         productDTO.setPrice(product.getPrice());
@@ -32,8 +31,8 @@ public class ProductMapper {
      * @param category Categoria associada ao imposto.
      * @return Objeto Tax correspondente.
      */
-    public Product toEntity(ProductDTO productDTO, Category category) {
-        Product product = new Product();
+    public RepProduct toEntity(RepProductDTO productDTO, RepCategory category) {
+        RepProduct product = new RepProduct();
         product.setCategory(category);
         product.setName(productDTO.getName());
         product.setPrice(productDTO.getPrice());

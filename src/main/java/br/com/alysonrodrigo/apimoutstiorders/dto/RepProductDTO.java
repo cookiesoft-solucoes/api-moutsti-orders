@@ -3,11 +3,13 @@ package br.com.alysonrodrigo.apimoutstiorders.dto;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 @Data
-public class ProductDTO {
+public class RepProductDTO implements Serializable {
 
+    @NotNull(message = "O ID é obrigatório.")
     private Long id;
 
     @NotBlank(message = "O nome do produto é obrigatório.")

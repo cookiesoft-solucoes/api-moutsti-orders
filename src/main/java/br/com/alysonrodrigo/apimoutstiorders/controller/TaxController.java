@@ -1,8 +1,8 @@
 package br.com.alysonrodrigo.apimoutstiorders.controller;
 
-import br.com.alysonrodrigo.apimoutstiorders.domain.model.Category;
+import br.com.alysonrodrigo.apimoutstiorders.domain.model.RepCategory;
 import br.com.alysonrodrigo.apimoutstiorders.domain.model.Tax;
-import br.com.alysonrodrigo.apimoutstiorders.domain.service.CategoryService;
+import br.com.alysonrodrigo.apimoutstiorders.domain.service.RepCategoryService;
 import br.com.alysonrodrigo.apimoutstiorders.domain.service.TaxService;
 import br.com.alysonrodrigo.apimoutstiorders.dto.TaxDTO;
 import br.com.alysonrodrigo.apimoutstiorders.mapper.TaxMapper;
@@ -18,12 +18,12 @@ import java.util.List;
 public class TaxController {
 
     private final TaxService taxService;
-    private final CategoryService categoryService;
+    private final RepCategoryService categoryService;
     private final TaxMapper taxMapper;
 
     public TaxController(TaxService taxService,
                          TaxMapper taxMapper,
-                         CategoryService categoryService) {
+                         RepCategoryService categoryService) {
         this.taxService = taxService;
         this.taxMapper = taxMapper;
         this.categoryService = categoryService;
@@ -39,7 +39,7 @@ public class TaxController {
     @PostMapping
     public ResponseEntity<Tax> createTax(@Valid @RequestBody TaxDTO taxDTO) {
 
-        Category category = categoryService.findById(taxDTO.getCategoryId());
+        RepCategory category = categoryService.findById(taxDTO.getCategoryId());
 
         Tax tax = taxMapper.toEntity(taxDTO, category);
         Tax savedTax = taxService.saveTax(tax);
@@ -50,7 +50,7 @@ public class TaxController {
     @PutMapping("/{id}")
     public ResponseEntity<Tax> updateTax(@PathVariable Long id, @Valid @RequestBody TaxDTO taxDTO) {
 
-        Category category = categoryService.findById(taxDTO.getCategoryId());
+        RepCategory category = categoryService.findById(taxDTO.getCategoryId());
 
         Tax tax = taxMapper.toEntity(taxDTO, category);
         tax.setId(id);

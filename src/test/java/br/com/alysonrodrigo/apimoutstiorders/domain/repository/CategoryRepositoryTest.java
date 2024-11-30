@@ -15,11 +15,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 @ActiveProfiles("test")
-@Sql(scripts = "/sql/insert_categories.sql")
-public class ProductRepositoryTest {
+public class CategoryRepositoryTest {
 
     @Autowired
-    private RepProductRepository productRepository;
+    private RepCategoryRepository productRepository;
 
     @Test
     public void testSaveAndFindProduct() {
@@ -30,24 +29,16 @@ public class ProductRepositoryTest {
         category.setDescription("Produtos eletrônicos de teste");
         category.setDeleted(false);
 
-        // Criando o produto
-        RepProduct product = new RepProduct();
-        product.setId(1L);
-        product.setName("Smartphone");
-        product.setPrice(new BigDecimal("1500.00"));
-        product.setQuantity(10);
-        product.setCategory(category);
-
-        // Salvando o produto
-        product = productRepository.save(product);
+        // Salvando a category
+        category = productRepository.save(category);
 
         // Verificando se o produto foi salvo corretamente
-        assertThat(product.getId()).isNotNull();
+        assertThat(category.getId()).isNotNull();
 
         // Buscando produto por ID
-        Optional<RepProduct> foundProduct = productRepository.findById(product.getId());
-        assertThat(foundProduct).isPresent();
-        assertThat(foundProduct.get().getName()).isEqualTo("Smartphone");
-        assertThat(foundProduct.get().getCategory().getName()).isEqualTo("Eletrônicos");
+        Optional<RepCategory> foundCategory = productRepository.findById(category.getId());
+        assertThat(foundCategory).isPresent();
+        assertThat(foundCategory.get().getName()).isEqualTo("Eletrônicos");
+        assertThat(foundCategory.get().getDescription()).isEqualTo("Produtos eletrônicos de teste");
     }
 }
