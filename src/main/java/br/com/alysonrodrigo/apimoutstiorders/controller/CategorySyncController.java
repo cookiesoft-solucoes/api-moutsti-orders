@@ -9,6 +9,11 @@ import br.com.alysonrodrigo.apimoutstiorders.dto.RepUserDTO;
 import br.com.alysonrodrigo.apimoutstiorders.mapper.CategoryMapper;
 import br.com.alysonrodrigo.apimoutstiorders.producer.CategorySyncProducer;
 import br.com.alysonrodrigo.apimoutstiorders.producer.UserSyncProducer;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -46,6 +51,11 @@ public class CategorySyncController {
         return ResponseEntity.ok("Category sync message sent for category: " + repCategoryDTO.getName());
     }
 
+    @Operation(summary = "Listar todas categorias", description = "Listar todas categorias.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Pedido processado com sucesso",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = RepCategoryDTO.class)))
+    })
     @PreAuthorize("hasRole('MANAGER')")
     @GetMapping
     public ResponseEntity<List<RepCategoryDTO>> allCategories() {
