@@ -35,7 +35,6 @@ public class CategoryServiceTest {
         category.setName("Informática");
         category.setDescription("Informática");
 
-
         when(categoryRepository.save(any(RepCategory.class))).thenReturn(category);
 
         RepCategory result = categoryRepository.save(category);

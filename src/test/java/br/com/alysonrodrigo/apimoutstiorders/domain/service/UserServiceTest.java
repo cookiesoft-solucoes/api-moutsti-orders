@@ -1,63 +1,69 @@
 package br.com.alysonrodrigo.apimoutstiorders.domain.service;
 
-import br.com.alysonrodrigo.apimoutstiorders.domain.model.RepCategory;
+import br.com.alysonrodrigo.apimoutstiorders.domain.model.RepProduct;
 import br.com.alysonrodrigo.apimoutstiorders.domain.model.RepUser;
-import br.com.alysonrodrigo.apimoutstiorders.domain.repository.RepCategoryRepository;
 import br.com.alysonrodrigo.apimoutstiorders.domain.repository.RepUserRepository;
+import br.com.alysonrodrigo.apimoutstiorders.dto.RepUserDTO;
 import br.com.alysonrodrigo.apimoutstiorders.exception.ResourceNotFoundException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
-
-    @InjectMocks
-    private RepUserService userService;
 
     @Mock
     private RepUserRepository userRepository;
 
-    public UserServiceTest() {
-        MockitoAnnotations.openMocks(this);
-    }
+    @InjectMocks
+    private RepUserService userService;
 
     @Test
     public void testCreateUser() {
-        RepUser user = new RepUser();
-        user.setId(1L);
-        user.setName("Alyson Rodrigo");
-        user.setEmail("alyson@gmail.com");
+        RepUser userCreate = new RepUser();
+        userCreate.setId(1L);
+        userCreate.setName("Alyson Rodrigo");
+        userCreate.setEmail("alyson@gmail.com");
 
+        when(userRepository.save(any(RepUser.class))).thenReturn(userCreate);
 
-        when(userRepository.save(any(RepUser.class))).thenReturn(user);
+        // Testar o método de criação
+        RepUser savedUser = userService.save(userCreate);
 
-        RepUser result = userRepository.save(user);
+        // Verificar o resultado
+        assertNotNull(savedUser);
+        assertEquals("Alyson Rodrigo", savedUser.getName());
+        assertEquals("alyson@gmail.com", savedUser.getEmail());
 
-        assertNotNull(result);
-        assertEquals("Alyson Rodrigo", result.getName());
-        verify(userRepository, times(1)).save(user);
+        // Verificar interação com o repositório
+        verify(userRepository, times(1)).save(userCreate);
     }
 
     @Test
     public void testGetUserById() {
-        RepUser user = new RepUser();
-        user.setId(1L);
-        user.setName("Alyson Rodrigo");
-        user.setEmail("alyson@gmail.com");
 
-        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+        RepUser userFind = new RepUser();
+        userFind.setId(2L);
+        userFind.setName("Test User");
+        userFind.setEmail("testuser@example.com");
 
-        RepUser result = userService.findById(1L);
+        when(userRepository.findById(2L)).thenReturn(Optional.of(userFind));
+
+        RepUser result = userService.findById(2L);
 
         assertNotNull(result);
-        assertEquals(1L, result.getId());
-        verify(userRepository, times(1)).findById(1L);
+        assertEquals(2L, result.getId());
+        assertEquals("Test User", result.getName());
+
+        verify(userRepository, times(1)).findById(2L);
     }
 
     @Test
