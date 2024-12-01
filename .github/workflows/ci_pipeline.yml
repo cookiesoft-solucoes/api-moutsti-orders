@@ -58,7 +58,10 @@ jobs:
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.branch.name=${{ github.event.pull_request.base.ref }} \
             -Dsonar.java.binaries=target/classes \
-            -Dsonar.qualitygate.wait=true
+            -Dsonar.qualitygate.wait=true \
+            -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml \
+            -Dsonar.junit.reportPaths=target/surefire-reports \
+            -Dsonar.test.inclusions=**/*Test.java
 
       # Verificação do Quality Gate (opcional, se não for utilizado o `sonar.qualitygate.wait=true`)
       - name: Quality Gate check
