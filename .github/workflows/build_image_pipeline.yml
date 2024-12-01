@@ -29,7 +29,7 @@ jobs:
 
       # Build do projeto Spring Boot usando Maven
       - name: Build with Maven
-        run: mvn clean package -DskipTests
+        run: mvn clean package
 
       # Logar no DOCR
       - name: Log in to DigitalOcean Container Registry
