@@ -39,6 +39,7 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable) // Desabilita CSRF para simplificação em testes
                 .authorizeHttpRequests(authorize ->
                         authorize
+                                .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                                 .anyRequest().authenticated() // Exige autenticação para todas as requisições
                 )
                 .httpBasic(httpBasic -> {}); // Habilita HTTP Basic Authentication

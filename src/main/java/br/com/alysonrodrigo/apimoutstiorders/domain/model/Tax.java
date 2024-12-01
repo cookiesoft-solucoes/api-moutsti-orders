@@ -1,5 +1,8 @@
 package br.com.alysonrodrigo.apimoutstiorders.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -19,6 +22,7 @@ public class Tax extends BaseEntity {
     @Column(name = "tax_type", nullable = false, length = 100)
     private String taxType;
 
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @ManyToOne(optional = false)
     @JoinColumn(name = "category_id", nullable = false)
     private RepCategory category;

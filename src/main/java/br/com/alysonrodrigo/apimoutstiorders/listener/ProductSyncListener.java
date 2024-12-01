@@ -27,7 +27,7 @@ public class ProductSyncListener {
     }
 
     @RabbitListener(queues = ConstantsUtil.PRODUCT_SYNC_QUEUE)
-    public void handleUserSync(RepProductDTO repProductDTO) {
+    public void handleProductSync(RepProductDTO repProductDTO) {
         Optional<RepProduct> existingProduct = repProductService.findByIdOutException(repProductDTO.getId());
 
         Optional<RepCategory> category = repCategoryService.findByIdOutException(repProductDTO.getCategoryId());

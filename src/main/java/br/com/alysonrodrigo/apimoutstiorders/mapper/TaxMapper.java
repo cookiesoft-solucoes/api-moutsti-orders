@@ -16,6 +16,7 @@ public class TaxMapper {
      */
     public TaxDTO toDTO(Tax tax) {
         TaxDTO taxDTO = new TaxDTO();
+        taxDTO.setId(tax.getId());
         taxDTO.setTaxType(tax.getTaxType());
         taxDTO.setRate(tax.getRate());
         taxDTO.setDescription(tax.getDescription());
